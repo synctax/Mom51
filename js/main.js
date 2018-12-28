@@ -1,20 +1,20 @@
 var WIDTH = window.innerWidth;
 var HEIGHT = window.innerHeight;
-const ROOM_WIDTH = 200;
+const ROOM_WIDTH = 500;
 const ROOM_HEIGHT = 100;
 const ROOM_LENGTH = 150;
 
 var renderer = new THREE.WebGLRenderer({antialias:true});
 renderer.setSize(WIDTH, HEIGHT);
-renderer.setClearColor(0x222222, 1);
+renderer.setClearColor(0x52d3e5, 1);
 document.body.appendChild(renderer.domElement);
 
 var scene = new THREE.Scene();
 
 //Camera
-var camera = new THREE.PerspectiveCamera(65, WIDTH/HEIGHT, 0.1, 10000);
-camera.position.set(0,10,90);
-camera.rotation.set(-0.15,0,0);
+var camera = new THREE.PerspectiveCamera(55, WIDTH/HEIGHT, 0.1, 10000);
+camera.position.set(0,0,15);
+camera.rotation.set(-0.05,0,0);
 scene.add(camera);
 
 //Floor Boards
@@ -48,32 +48,42 @@ scene.add(ceiling);
 
 //Windows
 var loader = new THREE.ObjectLoader();
-var Window = loader.parse(windowJSON);
-Window.position.z = -ROOM_LENGTH/2;
-Window.scale.set(3,2,2);
-scene.add(Window);
+var leftWindow = loader.parse(windowJSON);
+leftWindow.position.z = -ROOM_LENGTH/2;
+leftWindow.position.y = 5;
+leftWindow.scale.set(2.5,2,2);
+leftWindow.position.x = -49;
+scene.add(leftWindow);
+var rightWindow = loader.parse(windowJSON);
+rightWindow.rotation.y = Math.PI;
+rightWindow.position.z = -ROOM_LENGTH/2;
+rightWindow.scale.set(2.5,2,2);
+rightWindow.position.x = 49;
+leftWindow.position.y = 5;
+scene.add(rightWindow);
+
+//Table and Pots
+var table = loader.parse(tableJSON);
+table.scale.set(3,2.7,3);
+table.rotation.set(0,Math.PI,0);
+table.position.set(0,-30,-10);
+scene.add(table)
 
 //Light
-var light = new THREE.AmbientLight(0x222233);
-light.position.set(0, 0, 0);
+var light = new THREE.PointLight(0x555555);
+light.position.set(0,0,0);
 scene.add(light);
-var spotLight = new THREE.SpotLight(0xFFDDEE);
-spotLight.position.set(0,0,-100);
-spotLight.rotation.set(0,Math.PI,0);
-// spotLight.castShadow = true;
-// spotLight.shadow.mapSize.width = 1024;
-// spotLight.shadow.mapSize.height = 1024;
-// spotLight.shadow.camera.near = 500;
-// spotLight.shadow.camera.far = 4000;
-// spotLight.shadow.camera.fov = 30;
-scene.add(spotLight);
+var spotLight = new THREE.SpotLight( 0xffffff );
+spotLight.position.set( -49, 40, -100 );
+scene.add( spotLight );
+
 
 var t = 0;
 function render() {
 	t += 0.01;
 	requestAnimationFrame(render);
 	renderer.render(scene, camera);
-	spotLight.position.z -= 0.1;
+	//spotLight.position.z -= 0.1;
 }
 
 //Resizing
