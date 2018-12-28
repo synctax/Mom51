@@ -75,12 +75,15 @@ function render() {
 	renderer.render(scene, camera);
 	spotLight.position.z -= 0.1;
 }
-render();
 
 //Resizing
 window.addEventListener( 'resize', onWindowResize, false );
 function onWindowResize(){
-    camera.aspect = window.innerWidth / window.innerHeight;
+
+	WIDTH = window.innerWidth;
+	HEIGHT = window.innerHeight;
+
+    camera.aspect = WIDTH / HEIGHT;
     camera.updateProjectionMatrix();
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize( WIDTH, HEIGHT );
 }
