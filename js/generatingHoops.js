@@ -34,7 +34,7 @@ function drawHoops(lastNode, nodesLeft, circles){
 		if(failedAttempts > 50) {
 			radius = suggestedRadius - 2;
 			break;
-		} 
+		}
 		radius = radius / 64;
 
 		centerX = lastNode.radius == 0 ? lastNode.x : lastNode.x + lastNode.radius*(Math.cos(ang)) + (Math.cos(ang)*radius);
@@ -56,13 +56,13 @@ function drawHoops(lastNode, nodesLeft, circles){
 	radius -= .01;
 	if(radius > 0 && failedAttempts <= 40 && radius > .25){
 
-		let red =  Math.random() * 125 + 20; 
-		let green = Math.random() * 100; 
+		let red =  Math.random() * 125 + 20;
+		let green = Math.random() * 100;
 		let blue = Math.random() * 125;
 
 		//add object to scene
 		//centerY = -1 * centerY
-	
+
 		let node = {"uuid": create_UUID(), "x": centerX, "y": centerY, "z": centerZ, "radius":radius, "rgb": parseInt("0x" + decToHex(red) + decToHex(green) + decToHex(blue)) };
 		circles.dat.push(node);
 		for(var i = 0; i < nodesLeft; i++){
@@ -75,7 +75,7 @@ function drawHoops(lastNode, nodesLeft, circles){
 				drawHoops(node, i, circles);
 			}
 		}
-	}	
+	}
 }
 
 function formSceneObject(node){
@@ -115,8 +115,8 @@ function grow(plant, currStage, delay, end){
 		//console.log(sortedCircles);
 		let a = formSceneObject(plant.dat[currStage]);
 		scene.add(a.cylinder);
-		scene.add(a.ring);	
-	} 
+		scene.add(a.ring);
+	}
 	if(currStage > plant.stage){
 		plant.stage += 1;
 		let pData = JSON.stringify(plant);
@@ -137,7 +137,7 @@ function onDocumentMouseDown( event ) {
     //console.log(raycaster.intersectObjects(scene.children))
     var p = raycaster.intersectObjects(scene.children)[0] != undefined ? raycaster.intersectObjects(scene.children)[0].object : NaN;
     //console.log(p);
-    
+
     if (p != NaN){
     	for(var pl = 0; pl < plants.length; pl++){
     		for(var c = 0; c < plants[pl].stage + 1; c++){
@@ -152,7 +152,7 @@ function onDocumentMouseDown( event ) {
     					scene.remove(nodeCylinderObject);
     					scene.remove(nodeRingObject);
     				}
-    				//create a new plant and have it begin growth 
+    				//create a new plant and have it begin growth
     				plant = {"name": plants[pl].name, "exists": true, "dat": new Array(), "xpos": plants[pl].xpos, "ypos": plants[pl].ypos, "zpos": plants[pl].zpos, "stage": 0};
     				drawHoops({"x": plant.xpos, "y": plant.ypos, "z": plant.zpos, "radius": 0}, iterations, plant);
     				pData = JSON.stringify(plant);
@@ -168,8 +168,8 @@ function onDocumentMouseDown( event ) {
     		}
     	}
     	console.log(p.x + " " + p.y + " " + p.z);
-    } 
-    
+    }
+
 }
 
 document.addEventListener("click", onDocumentMouseDown);
@@ -193,7 +193,7 @@ if(localStorage.getItem("plant1") != undefined){
 	grow(plant3, 0, 0, plant3.stage + 1);
 
 	grow(plant1, plant1.stage + 1, wait, plant1.dat.length);
-	setTimeout(function(){grow(plant2, plant2.stage + 1, wait, plant2.dat.length)}, (Math.random() * 10 + 1) * 1000); 
+	setTimeout(function(){grow(plant2, plant2.stage + 1, wait, plant2.dat.length)}, (Math.random() * 10 + 1) * 1000);
 	setTimeout(function(){grow(plant3, plant3.stage + 1, wait, plant3.dat.length)}, (Math.random() * 10 + 2) * 1000);
 
 } else {
@@ -212,10 +212,10 @@ if(localStorage.getItem("plant1") != undefined){
 
 	plants.push(plant1); plants.push(plant2); plants.push(plant3);
 
-	localStorage.setItem(plant1.name, p1Data); localStorage.setItem(plant2.name, p2Data); localStorage.setItem(plant3.name, p3Data); 
+	localStorage.setItem(plant1.name, p1Data); localStorage.setItem(plant2.name, p2Data); localStorage.setItem(plant3.name, p3Data);
 
 	setTimeout(function(){grow(plant1, plant1.stage, wait, plant1.dat.length)}, (Math.random() * 10 + 1) * 1000);
-	setTimeout(function(){grow(plant2, plant2.stage, wait, plant2.dat.length)}, (Math.random() * 10 + 2) * 1000); 
+	setTimeout(function(){grow(plant2, plant2.stage, wait, plant2.dat.length)}, (Math.random() * 10 + 2) * 1000);
 	setTimeout(function(){grow(plant3, plant3.stage, wait, plant3.dat.length)}, (Math.random() * 10 + 3) * 1000);
 
 }
