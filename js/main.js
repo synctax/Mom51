@@ -4,9 +4,11 @@ const ROOM_WIDTH = 500;
 const ROOM_HEIGHT = 100;
 const ROOM_LENGTH = 150;
 
+var current= new Date();
+
 var renderer = new THREE.WebGLRenderer({antialias:true});
 renderer.setSize(WIDTH, HEIGHT);
-renderer.setClearColor(0x52d3e5, 1);
+renderer.setClearColor(0x888888);
 document.body.appendChild(renderer.domElement);
 
 var scene = new THREE.Scene();
@@ -54,13 +56,11 @@ leftWindow.position.y = 5;
 leftWindow.scale.set(2.5,2,2);
 leftWindow.position.x = -49;
 scene.add(leftWindow);
-var rightWindow = loader.parse(windowJSON);
+var rightWindow = leftWindow.clone();
 rightWindow.rotation.y = Math.PI;
-rightWindow.position.z = -ROOM_LENGTH/2;
-rightWindow.scale.set(2.5,2,2);
 rightWindow.position.x = 49;
-leftWindow.position.y = 5;
 scene.add(rightWindow);
+
 
 //Table and Pots
 var table = loader.parse(tableJSON);
@@ -69,13 +69,14 @@ table.rotation.set(0,Math.PI,0);
 table.position.set(0,-30,-10);
 scene.add(table)
 
+
 //Light
-var light = new THREE.PointLight(0x555555);
+var light = new THREE.PointLight(0x777777);
 light.position.set(0,0,0);
 scene.add(light);
-var spotLight = new THREE.SpotLight( 0xffffff );
-spotLight.position.set( -49, 40, -100 );
-scene.add( spotLight );
+var dLight = new THREE.DirectionalLight(0xffeeb2, 2.0);
+dLight.position.set(0,50,-100);
+scene.add(dLight);
 
 
 var t = 0;
