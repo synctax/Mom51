@@ -37,8 +37,8 @@ function drawHoops(lastNode, nodesLeft, circles){
 		} 
 		radius = radius / 64;
 
-		centerX = lastNode.x + lastNode.radius*(Math.cos(ang)) + (Math.cos(ang)*radius);
-		centerY = lastNode.y + lastNode.radius*(Math.sin(ang)) + (Math.sin(ang)*radius);
+		centerX = lastNode.radius == 0 ? lastNode.x : lastNode.x + lastNode.radius*(Math.cos(ang)) + (Math.cos(ang)*radius);
+		centerY = lastNode.radius == 0 ? lastNode.y : lastNode.y + lastNode.radius*(Math.sin(ang)) + (Math.sin(ang)*radius);
 
 		circleDoesWork = true;
 		for(var ic = 0; ic < circles.dat.length; ic++){
@@ -173,7 +173,7 @@ function onDocumentMouseDown( event ) {
 
 document.addEventListener("click", onDocumentMouseDown);
 
-//localStorage.clear();
+localStorage.clear();
 
 if(localStorage.getItem("plant1") != undefined){
 	console.log("ehllo1");
@@ -197,15 +197,15 @@ if(localStorage.getItem("plant1") != undefined){
 
 } else {
 	console.log("ehllo2");
-	var plant1 = {"name": "plant1", "exists": true, "dat": new Array(), "xpos": -4, "ypos": -0.75, "stage": 0};
+	var plant1 = {"name": "plant1", "exists": true, "dat": new Array(), "xpos": -4, "ypos": -1.25, "stage": 0};
 	drawHoops({"x": plant1.xpos, "y": plant1.ypos, "radius": 0}, iterations, plant1);
 	let p1Data = JSON.stringify(plant1);
 
-	var plant2 = {"name": "plant2", "exists": true, "dat": new Array(), "xpos": 0, "ypos": -0.75, "stage": 0};
+	var plant2 = {"name": "plant2", "exists": true, "dat": new Array(), "xpos": -0.1, "ypos": -1.25, "stage": 0};
 	drawHoops({"x": plant2.xpos, "y": plant2.ypos, "radius": 0}, iterations, plant2);
 	let p2Data = JSON.stringify(plant2);
 
-	var plant3 = {"name": "plant3", "exists": true, "dat": new Array(), "xpos": 4.25, "ypos": -0.75,  "stage": 0};
+	var plant3 = {"name": "plant3", "exists": true, "dat": new Array(), "xpos": 3.75, "ypos": -1.25,  "stage": 0};
 	drawHoops({"x": plant3.xpos, "y": plant3.ypos, "radius": 0}, iterations, plant3);
 	let p3Data = JSON.stringify(plant3);
 
