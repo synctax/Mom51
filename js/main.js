@@ -71,7 +71,7 @@ scene.add(table)
 
 
 //Light
-var light = new THREE.PointLight(0x777777);
+var light = new THREE.PointLight(0x999999);
 light.position.set(0,0,0);
 scene.add(light);
 var dLight = new THREE.DirectionalLight(0xffeeb2, 2.0);
