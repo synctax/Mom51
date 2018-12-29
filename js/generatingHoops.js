@@ -24,7 +24,7 @@ function create_UUID(){
 function drawHoops(lastNode, nodesLeft, circles){
 
 	var circleDoesWork = true;
-	var centerX, centerY, radius, ang;
+	var centerX, centerY, centerZ, radius, ang;
 	var suggestedRadius;
 	var failedAttempts = 0;
 	do {
@@ -39,6 +39,7 @@ function drawHoops(lastNode, nodesLeft, circles){
 
 		centerX = lastNode.radius == 0 ? lastNode.x : lastNode.x + lastNode.radius*(Math.cos(ang)) + (Math.cos(ang)*radius);
 		centerY = lastNode.radius == 0 ? lastNode.y : lastNode.y + lastNode.radius*(Math.sin(ang)) + (Math.sin(ang)*radius);
+		centerZ = lastNode.z;
 
 		circleDoesWork = true;
 		for(var ic = 0; ic < circles.dat.length; ic++){
@@ -62,7 +63,7 @@ function drawHoops(lastNode, nodesLeft, circles){
 		//add object to scene
 		//centerY = -1 * centerY
 	
-		let node = {"uuid": create_UUID(), "x": centerX, "y": centerY, "radius":radius, "rgb": parseInt("0x" + decToHex(red) + decToHex(green) + decToHex(blue)) };
+		let node = {"uuid": create_UUID(), "x": centerX, "y": centerY, "z": centerZ, "radius":radius, "rgb": parseInt("0x" + decToHex(red) + decToHex(green) + decToHex(blue)) };
 		circles.dat.push(node);
 		for(var i = 0; i < nodesLeft; i++){
 			let a = Math.random() * 100;
@@ -84,7 +85,7 @@ function formSceneObject(node){
 	var cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
 	cylinder.position.x = node.x;
 	cylinder.position.y = -node.y - 5;
-	cylinder.position.z = -0.25;
+	cylinder.position.z = node.z;
 	cylinder.rotation.x = Math.PI/2;
 	cylinder.name = node.uuid;
 	//scene.add(cylinder);
@@ -93,7 +94,7 @@ function formSceneObject(node){
 	var ring = new THREE.Mesh(ringGeometry, ringMaterial);
 	ring.position.x = node.x;
 	ring.position.y = -node.y - 5;
-	ring.position.z = -0.25 + 0.0625;
+	ring.position.z = node.z + 0.0625;
 	ring.name = node.uuid + 1;
 	//scene.add(ring);
 	return {"cylinder": cylinder, "ring": ring}
@@ -152,8 +153,8 @@ function onDocumentMouseDown( event ) {
     					scene.remove(nodeRingObject);
     				}
     				//create a new plant and have it begin growth 
-    				plant = {"name": plants[pl].name, "exists": true, "dat": new Array(), "xpos": plants[pl].xpos, "ypos": plants[pl].ypos, "stage": 0};
-    				drawHoops({"x": plant.xpos, "y": plant.ypos, "radius": 0}, iterations, plant);
+    				plant = {"name": plants[pl].name, "exists": true, "dat": new Array(), "xpos": plants[pl].xpos, "ypos": plants[pl].ypos, "zpos": plants[pl].zpos, "stage": 0};
+    				drawHoops({"x": plant.xpos, "y": plant.ypos, "z": plant.zpos, "radius": 0}, iterations, plant);
     				pData = JSON.stringify(plant);
 
     				plants[pl] = plant;
@@ -173,7 +174,7 @@ function onDocumentMouseDown( event ) {
 
 document.addEventListener("click", onDocumentMouseDown);
 
-localStorage.clear();
+//localStorage.clear();
 
 if(localStorage.getItem("plant1") != undefined){
 	console.log("ehllo1");
@@ -197,16 +198,16 @@ if(localStorage.getItem("plant1") != undefined){
 
 } else {
 	console.log("ehllo2");
-	var plant1 = {"name": "plant1", "exists": true, "dat": new Array(), "xpos": -4, "ypos": -1.25, "stage": 0};
-	drawHoops({"x": plant1.xpos, "y": plant1.ypos, "radius": 0}, iterations, plant1);
+	var plant1 = {"name": "plant1", "exists": true, "dat": new Array(), "xpos": -4, "ypos": -1.25, "zpos": -0.2, "stage": 0};
+	drawHoops({"x": plant1.xpos, "y": plant1.ypos, "z": plant1.zpos, "radius": 0}, iterations, plant1);
 	let p1Data = JSON.stringify(plant1);
 
-	var plant2 = {"name": "plant2", "exists": true, "dat": new Array(), "xpos": -0.1, "ypos": -1.25, "stage": 0};
-	drawHoops({"x": plant2.xpos, "y": plant2.ypos, "radius": 0}, iterations, plant2);
+	var plant2 = {"name": "plant2", "exists": true, "dat": new Array(), "xpos": -0.1, "ypos": -1.25, "zpos": -0.5, "stage": 0};
+	drawHoops({"x": plant2.xpos, "y": plant2.ypos, "z": plant2.zpos, "radius": 0}, iterations, plant2);
 	let p2Data = JSON.stringify(plant2);
 
-	var plant3 = {"name": "plant3", "exists": true, "dat": new Array(), "xpos": 3.75, "ypos": -1.25,  "stage": 0};
-	drawHoops({"x": plant3.xpos, "y": plant3.ypos, "radius": 0}, iterations, plant3);
+	var plant3 = {"name": "plant3", "exists": true, "dat": new Array(), "xpos": 3.75, "ypos": -1.25,  "zpos": .6, "stage": 0};
+	drawHoops({"x": plant3.xpos, "y": plant3.ypos, "z": plant3.zpos, "radius": 0}, iterations, plant3);
 	let p3Data = JSON.stringify(plant3);
 
 	plants.push(plant1); plants.push(plant2); plants.push(plant3);
