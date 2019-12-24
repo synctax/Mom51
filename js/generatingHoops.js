@@ -228,5 +228,3 @@ function decToHex(a){
 	}
 	return rHex;
 }
-
-render();

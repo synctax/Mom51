@@ -11,6 +11,7 @@ renderer.setSize(WIDTH, HEIGHT);
 renderer.setClearColor(0x888888);
 document.body.appendChild(renderer.domElement);
 
+console.log("hello");
 var scene = new THREE.Scene();
 
 //Camera
@@ -20,6 +21,7 @@ camera.rotation.set(-0.05,0,0);
 scene.add(camera);
 
 //Floor Boards
+/*
 var floorBoardGeometry = new THREE.BoxGeometry(2, 0.5, 150);
 for(var i = 0; i < ROOM_WIDTH/2; i++){
 	var h = Math.floor(40 + Math.random()*5);
@@ -68,20 +70,19 @@ table.scale.set(3,2.7,3);
 table.rotation.set(0,Math.PI,0);
 table.position.set(0,-30,-10);
 scene.add(table)
+*/
 
 
-//Light
-var light = new THREE.PointLight(0x999999);
-light.position.set(0,0,0);
-scene.add(light);
-var dLight = new THREE.DirectionalLight(0xffeeb2, 2.0);
-dLight.position.set(0,50,-100);
-scene.add(dLight);
 
+gallery = new Gallery(scene, camera);
+eventHandler = new EventHandler(scene, camera);
 
 var t = 0;
 function render() {
 	t += 0.01;
+	eventHandler.update();
+	gallery.update();
+	camera.updateProjectionMatrix();
 	requestAnimationFrame(render);
 	renderer.render(scene, camera);
 	//spotLight.position.z -= 0.1;
@@ -98,3 +99,5 @@ function onWindowResize(){
     camera.updateProjectionMatrix();
     renderer.setSize( WIDTH, HEIGHT );
 }
+
+render();
